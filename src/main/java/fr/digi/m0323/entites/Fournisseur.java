@@ -8,6 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "FOURNISSEUR")
+@Cacheable()
 public class Fournisseur {
 
     @Id
@@ -17,6 +18,8 @@ public class Fournisseur {
     private String raisonSociale;
     @Transient
     private float chiffreAffaire;
+
+    private static int NB = 0;
 
     @OneToMany(mappedBy = "fournisseur", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private Set<Article> articles;

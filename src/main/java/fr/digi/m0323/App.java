@@ -13,8 +13,24 @@ public class App {
         try (EntityManagerFactory emf = Persistence.createEntityManagerFactory("demo-jpa-m0323");
              EntityManager em = emf.createEntityManager()) {
 
-            em.getTransaction().begin();
 
+            Article article1 = em.find(Article.class, 1);
+            System.out.println("Article 1 via em 1" + article1.getRef());
+            Article article2 = em.find(Article.class, 1);
+            System.out.println("Article 2 via em 1" + article2.getRef());
+//            Article article1 = em.createQuery("FROM Article where id = :id", Article.class).setParameter("id", 1).getSingleResult();
+//            System.out.println("Article 1 via em 1" + article1.getRef());
+
+            EntityManager em2 = emf.createEntityManager();
+            Article article3 = em2.find(Article.class, 1);
+            System.out.println("Article 3 via em 2 " + article3.getRef());
+
+            Cache cache = emf.getCache();
+            if (cache.contains(Article.class, 1)) {
+                System.out.println("OUI");
+            } else {
+                System.out.println("NON");
+            }
             /*// C -> CRUD
             Fournisseur nouveauFournisseur = new Fournisseur("Diginamic Auto créée");
             em.persist(nouveauFournisseur);
@@ -52,18 +68,18 @@ public class App {
             }*/
 
             //Récupération d'un article
-            Article article = em.find(Article.class, 5);
+            /*Article article = em.find(Article.class, 5);
             if (null != article) {
                 System.out.println(article.getRef());
                 System.out.println(article.getFournisseur().getRaisonSociale());
-            }
+            }*/
 
-            Composition composition = em.find(Composition.class, new CompositionKey(5,1));
+           /* Composition composition = em.find(Composition.class, new CompositionKey(5,1));
             if ( composition != null) {
                 System.out.println(composition.getQte());
             } else {
                 System.out.println("pas réussi");
-            }
+            }*/
 
             // Créer un nouveau fournisseur, un nouveau bon et des nouveaux articles
 //            Fournisseur fournisseurACreer = new Fournisseur("La maison de l'ordi");
@@ -81,7 +97,7 @@ public class App {
 //            em.persist(bon41);
 
 
-            em.getTransaction().commit();
+//            em.getTransaction().commit();
         }
     }
 }

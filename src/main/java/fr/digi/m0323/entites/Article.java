@@ -7,6 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "article")
+@Cacheable
 public class Article {
 
     @Id
@@ -20,7 +21,7 @@ public class Article {
     @JoinColumn(name = "ID_FOU")
     private Fournisseur fournisseur;
 
-    @ManyToMany(mappedBy = "articles", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "articles", fetch = FetchType.LAZY)
     private Set<Bon> bons;
 
     @OneToMany(mappedBy = "article")
